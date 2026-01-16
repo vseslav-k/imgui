@@ -131,7 +131,11 @@ std::string makeClipboardText(){
 
 
 void layoutButtons(){
-
+    if (ImGui::Button("Clear")) {
+        log_lines.clear();
+        lastIdx = 0;
+    }
+    ImGui::SameLine();
     if (ImGui::Button("Copy Last")) {
         ImGui::SetClipboardText(makeClipboardText().c_str());
     }
@@ -139,18 +143,15 @@ void layoutButtons(){
     ImGui::SetNextItemWidth(150);
     ImGui::InputInt("lines", &copy_to_clipbrd_count);
     ImGui::SameLine();
-    if (ImGui::Button("Clear")) {
-        log_lines.clear();
-        lastIdx = 0;
-    }
 
     ImGui::SameLine();
     if (ImGui::Button("Scroll to Bottom")) {
         ImGui::SetScrollHereY(1.0f);
     }
-     ImGui::SameLine();
+    ImGui::SameLine();
     if (ImGui::Button(log_to_cout ? "Log to Cout: ON" : "Log to Cout: OFF")) log_to_cout = !log_to_cout;
-   
+    ImGui::SameLine();
+    if (ImGui::Button("Test Log")) log(Info, "Test Log Message");
 
     if (ImGui::Button(log_level_enabled[0] ? "Debug: ON" : "Debug: OFF"))log_level_enabled[0] = !log_level_enabled[0];
 
@@ -168,10 +169,30 @@ void layoutButtons(){
 
 
     
-    if (ImGui::Button(log_to_file ? "Log to File: ON" : "Log to File: OFF")) log_to_file = !log_to_file;
+    if (ImGui::Button(log_to_file ? "Log to File: ON" : "Log to File: OFF")){
+        log_to_file = !log_to_file;
+        if( log_to_file ){
+            reopen_file = true;
+        } else {
+            log_file.close();
+        }
+    }
     ImGui::SameLine();
     ImGui::InputText("Log File Path", log_file_path, sizeof(log_file_path));
     
+    
+}
+
+void handleLogFile(){
+    if(!log_file.is_open() || reopen_file){
+        log_file.close();
+        log_file.clear();
+        log_file.open(log_file_path,  std::ios::app);
+        reopen_file = false;
+    }
+    if(!log_file.is_open()){
+        std::cout << "file open?: " << log_file.is_open() << std::endl;
+    }
 }
 
 void DrawLogWindow(){
@@ -187,11 +208,7 @@ void DrawLogWindow(){
         return;
     }
     
-    if(!log_file.is_open()|| !log_file){
-        log_file.open(log_file_path,  std::ios::app);
-    }if(!log_file.is_open()|| !log_file){
-        std::cout << "file open?: " << log_file.is_open() << std::endl;
-    }
+    handleLogFile();
     
     ImGui::SetNextWindowSize(ImVec2(600, 300), ImGuiCond_Once);
     ImGui::SetNextWindowPos(ImVec2(100, 100), ImGuiCond_Once);

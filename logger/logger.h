@@ -12,6 +12,7 @@ static bool show_log_window = true;
 static char log_file_path[300] = "C:\\Users\\vsesl\\OneDrive\\Documents\\log.txt\0";
 static int copy_to_clipbrd_count = 100;
 static std::ofstream log_file;
+static bool reopen_file = false;
 static std::vector<std::pair<std::string, LogLevel>> log_lines;
 static int lastIdx = 0;
 static std::array<bool, 5> log_level_enabled = { true, true, true, true, true };
