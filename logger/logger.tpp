@@ -72,7 +72,7 @@ std::string ptrToStr(typ* p, int size, std::string (*logger)(typ, int), const st
             logger = simpleStr;
         else{
             std::string err = "ptrToStr: No default logger for this type. Please provide a custom logger function.";
-            log(err, "\n", Error);
+            log( Error, err, "\n");
             std::cerr << err << std::endl;
             return err;
         }
@@ -90,18 +90,38 @@ std::string ptrToStr(typ* p, int size, std::string (*logger)(typ, int), const st
     return result;
 }
 
-void log(const std::string& item, const LogLevel lvl){
-    log_lines.push_back(std::make_pair(item + "\n", lvl));
-}
-
-void log(const std::string& item, const std::string& seperator, const LogLevel lvl){
+void log(const LogLevel lvl, const std::string& item, const std::string& seperator){
     log_lines.push_back(std::make_pair(item + seperator, lvl));
 }
+void logToCout(const LogLevel lvl, const std::string& item, const std::string& seperator){
+    std::cout << log_level_names[lvl] << ": ";
+    if(seperator == "\\endl"){
+        std::cout << item << std::endl;
+        return;
+    }
+    std::cout << item << seperator;
+}
+void logToFile(const LogLevel lvl, const std::string& item, const std::string& seperator){
+    if (!log_file.is_open()){
+        log(Error, "logToFile: log file is not open!");
+        logToCout(Error, "logToFile: log file is not open!");
+        return;
+    }
+    log_file << log_level_names[lvl] << ": ";
+    if(seperator == "\\endl"){
+        log_file << item << std::endl;
+        return;
+    }
+
+    log_file << item << seperator;
+}
+
 
 
 void layoutButtons(){
     if (ImGui::Button("Clear")) {
         log_lines.clear();
+        lastIdx = 0;
     }
 
     ImGui::SameLine();
@@ -123,9 +143,16 @@ void layoutButtons(){
 
     ImGui::SameLine();
     if (ImGui::Button(log_level_enabled[4] ? "Critical: ON" : "Critical: OFF"))log_level_enabled[4] = !log_level_enabled[4];
+
+    ImGui::SameLine();
+    if (ImGui::Button(log_to_cout ? "Log to Cout: ON" : "Log to Cout: OFF")) log_to_cout = !log_to_cout;
+
+    ImGui::SameLine();
+    if (ImGui::Button(log_to_file ? "Log to File: ON" : "Log to File: OFF")) log_to_file = !log_to_file;
 }
 
 void DrawLogWindow(){
+    log_file.open(log_file_path);
     if (!show_log_window) return;
     
     ImGui::SetNextWindowSize(ImVec2(600, 300), ImGuiCond_Once);
@@ -139,11 +166,20 @@ void DrawLogWindow(){
     ImGui::BeginChild("LogScroll", ImVec2(0, 0), false,
                       ImGuiWindowFlags_HorizontalScrollbar);
 
-  
+    int i = 0;
     for (const std::pair<std::string, LogLevel>& line : log_lines) {
-        if (log_level_enabled[line.second])
+        if (log_level_enabled[line.second]){
             ImGui::TextColored(log_level_colors[line.second], "%s", line.first.c_str());
+            if(log_to_cout && i > lastIdx) {
+                logToCout(line.second, line.first, "");
+            }
+            if(log_to_file && i > lastIdx) {
+                logToFile(line.second, line.first, "");
+            }
+        }
+        ++i;
     }
+    lastIdx = static_cast<int>(log_lines.size())-1;
     // Auto-scroll to bottom
     if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
         ImGui::SetScrollHereY(1.0f);

@@ -34,22 +34,21 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 // Main code
 int main(int, char**)
 {
-    log("Test log message: Application started", Info);
-    log("Test debug message: Application started", Debug);
-    log("Test warn message: Application started", Warn);
-    log("Test error message: Application started", ".\n", Error);
-    log("Test critical message: Application started", "\n", Critical);
-    log(numToStr(1488), Critical);
-    log(numToStrBin(int(1488)), Critical);
-    log(numToStrBin(short(1488)), Warn);
-    log(fltToStr(1023.123f), Warn);
-    log(fltToStr((67676.6969696)), Warn);
-    log(fltToStr(67676.69696961488, 12), Warn);
-    log(fltToStrSci((67676.6969696), 12), Warn);
+    log(Info, "Test log message: Application started");
+    log(Debug, "Test debug message: Application started");
+    log(Warn, "Test warn message: Application started");
+    log(Error, "Test error message: Application started", "\n");
+    log(Critical, "Test critical message: Application started", "\n");
+    log(Critical, numToStr(1488));
+    log(Critical, numToStrBin(int(1488)));
+    log(Warn, numToStrBin(short(1488)));
+    log(Warn, fltToStr(1023.123f));
+    log(Warn, fltToStr((67676.6969696)));
+    log(Warn, fltToStr(67676.69696961488, 12));
+    log(Warn, fltToStrSci((67676.6969696), 12));
 
     std::array<int, 5> test_array = { 1, 2, 3, 4, 5 };
-    log(ptrToStr(test_array.data(), static_cast<int>(test_array.size()), numToStr<int>, ", "), Warn);
-
+    log(Warn, ptrToStr(test_array.data(), static_cast<int>(test_array.size()), numToStr<int>, ", "));
     // Make process DPI aware and obtain main monitor scale
     ImGui_ImplWin32_EnableDpiAwareness();
     float main_scale = ImGui_ImplWin32_GetDpiScaleForMonitor(::MonitorFromPoint(POINT{ 0, 0 }, MONITOR_DEFAULTTOPRIMARY));
