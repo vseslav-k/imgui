@@ -4,7 +4,7 @@
 #include <array>
 #include "fstream"
 
-enum LogLevel : int {Debug, Info, Warn, Error, Critical };
+const enum LogLevel : int {Debug, Info, Warn, Error, Critical };
 static bool log_to_file = true;
 static bool log_to_cout = true;
 static bool show_log_window = true;

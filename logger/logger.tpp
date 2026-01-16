@@ -175,7 +175,15 @@ void layoutButtons(){
 }
 
 void DrawLogWindow(){
+    
+
+    if (ImGui::IsKeyPressed(ImGuiKey_L) && (ImGui::GetIO().KeyCtrl)) {
+        show_log_window = !show_log_window;
+    }
+
+
     if (!show_log_window) {
+        log_file.close();
         return;
     }
     
