@@ -94,7 +94,7 @@ void log(const LogLevel lvl, const std::string& item, const std::string& seperat
     log_lines.push_back(std::make_pair(item + seperator, lvl));
 }
 void logToCout(const LogLevel lvl, const std::string& item, const std::string& seperator){
-    std::cout << log_level_names[lvl] << ": ";
+    std::cout << log_level_names[lvl] << " ";
     if(seperator == "\\endl"){
         std::cout << item << std::endl;
         return;
@@ -107,7 +107,7 @@ void logToFile(const LogLevel lvl, const std::string& item, const std::string& s
         logToCout(Error, "logToFile: log file is not open!");
         return;
     }
-    log_file << log_level_names[lvl] << ": ";
+    log_file << log_level_names[lvl] << " ";
     if(seperator == "\\endl"){
         log_file << item << std::endl;
         return;
@@ -117,9 +117,28 @@ void logToFile(const LogLevel lvl, const std::string& item, const std::string& s
     
 }
 
+std::string makeClipboardText(){
+    std::string text = "";
+    int n = min(copy_to_clipbrd_count, static_cast<int>(log_lines.size()));
+
+
+    for(int i = 0; i < n; ++i){
+        text += log_level_names[log_lines[i].second] + " " + log_lines[i].first;
+    }
+    return text;
+
+}
 
 
 void layoutButtons(){
+
+    if (ImGui::Button("Copy Last")) {
+        ImGui::SetClipboardText(makeClipboardText().c_str());
+    }
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(150);
+    ImGui::InputInt("lines", &copy_to_clipbrd_count);
+    ImGui::SameLine();
     if (ImGui::Button("Clear")) {
         log_lines.clear();
         lastIdx = 0;
@@ -129,8 +148,10 @@ void layoutButtons(){
     if (ImGui::Button("Scroll to Bottom")) {
         ImGui::SetScrollHereY(1.0f);
     }
+     ImGui::SameLine();
+    if (ImGui::Button(log_to_cout ? "Log to Cout: ON" : "Log to Cout: OFF")) log_to_cout = !log_to_cout;
+   
 
-    ImGui::SameLine();
     if (ImGui::Button(log_level_enabled[0] ? "Debug: ON" : "Debug: OFF"))log_level_enabled[0] = !log_level_enabled[0];
 
     ImGui::SameLine();
@@ -145,15 +166,24 @@ void layoutButtons(){
     ImGui::SameLine();
     if (ImGui::Button(log_level_enabled[4] ? "Critical: ON" : "Critical: OFF"))log_level_enabled[4] = !log_level_enabled[4];
 
-    ImGui::SameLine();
-    if (ImGui::Button(log_to_cout ? "Log to Cout: ON" : "Log to Cout: OFF")) log_to_cout = !log_to_cout;
 
-    ImGui::SameLine();
+    
     if (ImGui::Button(log_to_file ? "Log to File: ON" : "Log to File: OFF")) log_to_file = !log_to_file;
+    ImGui::SameLine();
+    ImGui::InputText("Log File Path", log_file_path, sizeof(log_file_path));
+    
 }
 
 void DrawLogWindow(){
-    if (!show_log_window) return;
+    if (!show_log_window) {
+        return;
+    }
+    
+    if(!log_file.is_open()|| !log_file){
+        log_file.open(log_file_path,  std::ios::app);
+    }if(!log_file.is_open()|| !log_file){
+        std::cout << "file open?: " << log_file.is_open() << std::endl;
+    }
     
     ImGui::SetNextWindowSize(ImVec2(600, 300), ImGuiCond_Once);
     ImGui::SetNextWindowPos(ImVec2(100, 100), ImGuiCond_Once);

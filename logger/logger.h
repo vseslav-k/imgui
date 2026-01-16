@@ -9,13 +9,14 @@ static bool log_to_file = true;
 static bool log_to_cout = true;
 static bool show_log_window = true;
 
-static std::string log_file_path = "C:\\Users\\vsesl\\OneDrive\\Documents\\log.txt";
-static std::ofstream log_file(log_file_path);
+static char log_file_path[300] = "C:\\Users\\vsesl\\OneDrive\\Documents\\log.txt\0";
+static int copy_to_clipbrd_count = 100;
+static std::ofstream log_file;
 static std::vector<std::pair<std::string, LogLevel>> log_lines;
 static int lastIdx = 0;
 static std::array<bool, 5> log_level_enabled = { true, true, true, true, true };
-const static std::array<std::string, 5> log_level_names = { "DEBUG", "INFO", "WARN", "ERROR", "CRITICAL" };
 
+const static std::array<std::string, 5> log_level_names = { "[DEBUG]", "[INFO]", "[WARN]", "[ERROR]", "[CRITICAL]" };
 const static std::array<ImVec4, 5> log_level_colors = { ImVec4(1.0f, 1.0f, 1.0f, 1.0f), 
                                                   ImVec4(0.5f, 0.5f, 0.5f, 1.0f), 
                                                   ImVec4(1.0f, 1.0f, 0.0f, 1.0f), 
