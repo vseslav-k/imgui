@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Libraries/imgui/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

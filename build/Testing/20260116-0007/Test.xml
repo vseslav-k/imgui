@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Win32-ninja"
+	BuildStamp="20260116-0007-Experimental"
+	Name="VSDESKTOP"
+	Generator="ctest-4.1.1-msvc1"
+	CompilerName="C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe"
+	CompilerVersion="19.50.35722.0"
+	OSName="Windows"
+	Hostname="VSDESKTOP"
+	OSRelease=" Personal"
+	OSVersion=" (Build 26200)"
+	OSPlatform="x86"
+	Is64Bits="1"
+	VendorString="AuthenticAMD"
+	VendorID="Advanced Micro Devices"
+	FamilyID="15"
+	ModelID="1"
+	ModelName="AMD Ryzen 7 7800X3D 8-Core Processor"
+	ProcessorCacheSize="64"
+	NumberOfLogicalCPU="16"
+	NumberOfPhysicalCPU="8"
+	TotalVirtualMemory="37568"
+	TotalPhysicalMemory="32448"
+	LogicalProcessorsPerPhysical="2"
+	ProcessorClockFrequency="4201"
+	>
+	<Testing>
+		<StartDateTime>Jan 15 20:26 Pacific Standard Time</StartDateTime>
+		<StartTestTime>1768537615</StartTestTime>
+		<TestList/>
+		<EndDateTime>Jan 15 20:26 Pacific Standard Time</EndDateTime>
+		<EndTestTime>1768537615</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>
