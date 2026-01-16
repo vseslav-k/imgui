@@ -114,6 +114,7 @@ void logToFile(const LogLevel lvl, const std::string& item, const std::string& s
     }
 
     log_file << item << seperator;
+    
 }
 
 
@@ -152,7 +153,6 @@ void layoutButtons(){
 }
 
 void DrawLogWindow(){
-    log_file.open(log_file_path);
     if (!show_log_window) return;
     
     ImGui::SetNextWindowSize(ImVec2(600, 300), ImGuiCond_Once);
@@ -170,7 +170,7 @@ void DrawLogWindow(){
     for (const std::pair<std::string, LogLevel>& line : log_lines) {
         if (log_level_enabled[line.second]){
             ImGui::TextColored(log_level_colors[line.second], "%s", line.first.c_str());
-            if(log_to_cout && i > lastIdx) {
+            if(log_to_cout && i > lastIdx ) {
                 logToCout(line.second, line.first, "");
             }
             if(log_to_file && i > lastIdx) {
@@ -179,6 +179,9 @@ void DrawLogWindow(){
         }
         ++i;
     }
+    if(log_to_file) log_file.flush();
+    if(log_to_cout) std::cout.flush();
+
     lastIdx = static_cast<int>(log_lines.size())-1;
     // Auto-scroll to bottom
     if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
