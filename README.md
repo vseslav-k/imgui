@@ -1,10 +1,6 @@
-# imgui-starter
+# My logger
+added a simple and conveniet logging interface to imgui. log function takes a string and a level as a parameter and logs it. It can also optionally take a custom seperator between lines. Default is "\n".
 
-Using the provided code provided here you have a base Dear IMGUI project for Windows and macOS. There is a basic CMakefile in this project that includes the necessary files to create an application that brings up just a basic screen.
+Added helper functions that allow one to easily turn various integral and floating types to strings of different type to be logged using log function. Includes regular, binary, scientific, and floating precision reprerentations.
 
-You must add a logging system to this code that you will be using THROUGHOUT the quarter. This logging system should do two things.
-
-It should be able to log to a Dear IMGUI debug console
-It should also log its output to a file.
-
-For the submission, make a branch of this repo and submit a new GitHub URL
+Added GUI console to which everything is logged. It is color coded based on log level. Allows you to customize what log levels you want to see as well as clear console and enable/disable cout/file logging.
