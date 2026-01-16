@@ -30,7 +30,7 @@ void CleanupRenderTarget();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 
-
+//addded
 // Main code
 int main(int, char**)
 {
