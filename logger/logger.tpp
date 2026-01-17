@@ -56,8 +56,6 @@ std::string simpleStr(const std::string& s, int precision = -1){
     return s;
 }
 
-
-
 template <class typ>
 std::string ptrToStr(typ* p, int size, std::string (*logger)(typ, int), const std::string& seperator, int precision){
 
@@ -90,8 +88,18 @@ std::string ptrToStr(typ* p, int size, std::string (*logger)(typ, int), const st
     return result;
 }
 
+void push_to_log_lines(std::pair<std::string, LogLevel>&& value)
+{
+    max_log_lines = max(static_cast<size_t>(1), max_log_lines);
+    if (log_lines.size() >= max_log_lines) {
+        logToCout(Info, "resizing lines", "\n");
+        log_lines.erase(log_lines.begin(), log_lines.begin() + (log_lines.size() - max_log_lines));   // drop oldest
+    }
+    log_lines.push_back(std::move(value));
+}
+
 void log(const LogLevel lvl, const std::string& item, const std::string& seperator){
-    log_lines.push_back(std::make_pair(item + seperator, lvl));
+    push_to_log_lines(std::make_pair(item + seperator, lvl));
 }
 void logToCout(const LogLevel lvl, const std::string& item, const std::string& seperator){
     std::cout << log_level_names[lvl] << " ";
@@ -122,7 +130,8 @@ std::string makeClipboardText(){
     int n = min(copy_to_clipbrd_count, static_cast<int>(log_lines.size()));
 
 
-    for(int i = 0; i < n; ++i){
+    for(int i = log_lines.size() - n; i < log_lines.size(); ++i){
+
         text += log_level_names[log_lines[i].second] + " " + log_lines[i].first;
     }
     return text;
@@ -140,7 +149,7 @@ void layoutButtons(){
         ImGui::SetClipboardText(makeClipboardText().c_str());
     }
     ImGui::SameLine();
-    ImGui::SetNextItemWidth(150);
+    ImGui::SetNextItemWidth(120);
     ImGui::InputInt("lines", &copy_to_clipbrd_count);
     ImGui::SameLine();
 
@@ -166,9 +175,10 @@ void layoutButtons(){
 
     ImGui::SameLine();
     if (ImGui::Button(log_level_enabled[4] ? "Critical: ON" : "Critical: OFF"))log_level_enabled[4] = !log_level_enabled[4];
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(120);
+    ImGui::InputInt("Show Lines", &max_log_lines);
 
-
-    
     if (ImGui::Button(log_to_file ? "Log to File: ON" : "Log to File: OFF")){
         log_to_file = !log_to_file;
         if( log_to_file ){
@@ -191,9 +201,11 @@ void handleLogFile(){
         reopen_file = false;
     }
     if(!log_file.is_open()){
-        std::cout << "file open?: " << log_file.is_open() << std::endl;
+        logToCout(Error, "handleLogFile: Could not open log file at path: " + std::string(log_file_path));
     }
 }
+
+
 
 void DrawLogWindow(){
     
@@ -208,7 +220,7 @@ void DrawLogWindow(){
         return;
     }
     
-    handleLogFile();
+    if(log_to_file) handleLogFile();
     
     ImGui::SetNextWindowSize(ImVec2(600, 300), ImGuiCond_Once);
     ImGui::SetNextWindowPos(ImVec2(100, 100), ImGuiCond_Once);

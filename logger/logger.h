@@ -6,11 +6,12 @@
 
 const enum LogLevel : int {Debug, Info, Warn, Error, Critical };
 static bool log_to_file = true;
-static bool log_to_cout = true;
+static bool log_to_cout = false;
 static bool show_log_window = true;
 
 static char log_file_path[300] = "C:\\Users\\vsesl\\OneDrive\\Documents\\log.txt\0";
 static int copy_to_clipbrd_count = 100;
+static int max_log_lines = 1000;
 static std::ofstream log_file;
 static bool reopen_file = false;
 static std::vector<std::pair<std::string, LogLevel>> log_lines;
