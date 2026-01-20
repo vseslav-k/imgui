@@ -7,6 +7,8 @@
 #include <iostream>
 
 
+
+
 template <class num>
 std::string numToStr(num n, int precision){
     static_assert(std::is_integral_v<num>, "numToStr requires an integral type");
@@ -125,6 +127,11 @@ void logToFile(const LogLevel lvl, const std::string& item, const std::string& s
     
 }
 
+
+
+
+
+
 std::string makeClipboardText(){
     std::string text = "";
     int n = min(copy_to_clipbrd_count, static_cast<int>(log_lines.size()));
@@ -204,8 +211,6 @@ void handleLogFile(){
         logToCout(Error, "handleLogFile: Could not open log file at path: " + std::string(log_file_path));
     }
 }
-
-
 
 void DrawLogWindow(){
     

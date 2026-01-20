@@ -3,6 +3,8 @@
 #include <vector>
 #include <array>
 #include "fstream"
+#include <chrono>
+
 
 const enum LogLevel : int {Debug, Info, Warn, Error, Critical };
 static bool log_to_file = true;
@@ -24,6 +26,9 @@ const static std::array<ImVec4, 5> log_level_colors = { ImVec4(1.0f, 1.0f, 1.0f,
                                                   ImVec4(1.0f, 1.0f, 0.0f, 1.0f), 
                                                   ImVec4(1.0f, 0.3f, 0.3f, 1.0f), 
                                                   ImVec4(0.7f, 0.0f, 0.0f, 1.0f) };
+
+
+
 
 void DrawLogWindow();
 
@@ -47,6 +52,7 @@ std::string ptrToStr(typ* p, int size = 1, std::string (*logger)(typ, int) = nul
 void log(const LogLevel lvl, const std::string& item, const std::string& seperator = "\n");
 void logToCout(const LogLevel lvl, const std::string& item, const std::string& seperator = "\\endl");
 void logToFile(const LogLevel lvl, const std::string& item, const std::string& seperator = "\\endl");
+
 
 
 #include "logger.tpp"

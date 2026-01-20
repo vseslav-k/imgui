@@ -13,6 +13,7 @@
 #include <tchar.h>
 #include "Application.h"
 #include "logger/logger.h"
+#include "Timer/Timer.h"
 
 // Data
 static ID3D11Device*            g_pd3dDevice = nullptr;
@@ -34,6 +35,10 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 // Main code
 int main(int, char**)
 {
+    Timer app_timer;
+
+    app_timer.setTimePoint("App Starting");
+
     log(Info, "Test log message: Application started");
     log(Debug, "Test debug message: Application started");
     log(Warn, "Test warn message: Application started");
@@ -46,6 +51,9 @@ int main(int, char**)
     log(Warn, fltToStr((67676.6969696)));
     log(Warn, fltToStr(67676.69696961488, 12));
     log(Warn, fltToStrSci((67676.6969696), 12));
+
+    app_timer.setTimePoint("Warning Logs Finished");
+
 
     std::array<int, 5> test_array = { 1, 2, 3, 4, 5 };
     log(Warn, ptrToStr(test_array.data(), static_cast<int>(test_array.size()), numToStr<int>, ", "));
@@ -125,6 +133,8 @@ int main(int, char**)
 
     // Our state
     ClassGame::GameStartUp();
+    app_timer.setTimePoint("Inits Finished");
+    log(Info, "Application Warning Logs finished in " + numToStr(Timer::microPassed(app_timer.getTimePoint("App Starting"), app_timer.getTimePoint("Warning Logs Finished"))) + " mus");
 
     // Main loop
     bool done = false;

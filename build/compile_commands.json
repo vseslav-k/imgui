@@ -37,6 +37,12 @@
 },
 {
   "directory": "C:/Libraries/imgui/build",
+  "command": "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++20 /FoCMakeFiles\\demo.dir\\Timer\\Timer.cpp.obj /FdCMakeFiles\\demo.dir\\ /FS -c C:\\Libraries\\imgui\\Timer\\Timer.cpp",
+  "file": "C:/Libraries/imgui/Timer/Timer.cpp",
+  "output": "C:/Libraries/imgui/build/CMakeFiles/demo.dir/Timer/Timer.cpp.obj"
+},
+{
+  "directory": "C:/Libraries/imgui/build",
   "command": "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++20 /FoCMakeFiles\\demo.dir\\imgui\\imgui_impl_dx11.cpp.obj /FdCMakeFiles\\demo.dir\\ /FS -c C:\\Libraries\\imgui\\imgui\\imgui_impl_dx11.cpp",
   "file": "C:/Libraries/imgui/imgui/imgui_impl_dx11.cpp",
   "output": "C:/Libraries/imgui/build/CMakeFiles/demo.dir/imgui/imgui_impl_dx11.cpp.obj"
