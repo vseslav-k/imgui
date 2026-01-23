@@ -13,6 +13,7 @@
 #include <tchar.h>
 #include "Application.h"
 #include "logger/logger.h"
+#include "logger/logger.tpp"
 #include "Timer/Timer.h"
 
 // Data

@@ -53,6 +53,3 @@ void log(const LogLevel lvl, const std::string& item, const std::string& seperat
 void logToCout(const LogLevel lvl, const std::string& item, const std::string& seperator = "\\endl");
 void logToFile(const LogLevel lvl, const std::string& item, const std::string& seperator = "\\endl");
 
-
-
-#include "logger.tpp"
