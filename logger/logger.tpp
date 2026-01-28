@@ -16,7 +16,7 @@
 
 
 template <class num>
-std::string numToStr(num n, int precision){
+inline std::string numToStr(num n, int precision){
     static_assert(std::is_integral_v<num>, "numToStr requires an integral type");
 
     char buf[sizeof(num) * 8];
@@ -25,7 +25,7 @@ std::string numToStr(num n, int precision){
 }
 
 template <class num>
-std::string numToStrBin(num n, int precision){
+inline std::string numToStrBin(num n, int precision){
     static_assert((std::is_integral_v<num>), "numToStrBin requires an integral or floating-point type");
     using unum = std::make_unsigned_t<num>;
     unum v = static_cast<unum>(n);
@@ -41,7 +41,7 @@ std::string numToStrBin(num n, int precision){
 }
 
 template <class flt>
-std::string fltToStr(flt n, int precision) {
+inline std::string fltToStr(flt n, int precision) {
     static_assert((std::is_floating_point_v<flt>), "fltToStr requires a floating-point type");
 
     std::ostringstream oss;
@@ -51,7 +51,7 @@ std::string fltToStr(flt n, int precision) {
 }
 
 template <class flt>
-std::string fltToStrSci(flt n, int precision) {
+inline std::string fltToStrSci(flt n, int precision) {
     static_assert((std::is_floating_point_v<flt>), "fltToStrSci requires a floating-point type");
 
     std::ostringstream oss;
@@ -60,12 +60,12 @@ std::string fltToStrSci(flt n, int precision) {
     return oss.str();
 }
 
-std::string simpleStr(const std::string& s, int precision = -1){
+inline std::string simpleStr(const std::string& s, int precision = -1){
     return s;
 }
 
 template <class typ>
-std::string ptrToStr(typ* p, int size, std::string (*logger)(typ, int), const std::string& seperator, int precision){
+inline std::string ptrToStr(typ* p, int size, std::string (*logger)(typ, int), const std::string& seperator, int precision){
 
     constexpr bool is_flt = std::is_floating_point_v<typ>;
 
@@ -96,7 +96,7 @@ std::string ptrToStr(typ* p, int size, std::string (*logger)(typ, int), const st
     return result;
 }
 
-void push_to_log_lines(std::pair<std::string, LogLevel>&& value)
+inline void push_to_log_lines(std::pair<std::string, LogLevel>&& value)
 {
     max_log_lines = max(static_cast<size_t>(1), max_log_lines);
     if (log_lines.size() >= max_log_lines) {
@@ -106,10 +106,10 @@ void push_to_log_lines(std::pair<std::string, LogLevel>&& value)
     log_lines.push_back(std::move(value));
 }
 
-void log(const LogLevel lvl, const std::string& item, const std::string& seperator){
+inline void log(const LogLevel lvl, const std::string& item, const std::string& seperator){
     push_to_log_lines(std::make_pair(item + seperator, lvl));
 }
-void logToCout(const LogLevel lvl, const std::string& item, const std::string& seperator){
+inline void logToCout(const LogLevel lvl, const std::string& item, const std::string& seperator){
     std::cout << log_level_names[lvl] << " ";
     if(seperator == "\\endl"){
         std::cout << item << std::endl;
@@ -117,7 +117,7 @@ void logToCout(const LogLevel lvl, const std::string& item, const std::string& s
     }
     std::cout << item << seperator;
 }
-void logToFile(const LogLevel lvl, const std::string& item, const std::string& seperator){
+inline void logToFile(const LogLevel lvl, const std::string& item, const std::string& seperator){
     if (!log_file.is_open()){
         log(Error, "logToFile: log file is not open!");
         logToCout(Error, "logToFile: log file is not open!");
@@ -138,7 +138,7 @@ void logToFile(const LogLevel lvl, const std::string& item, const std::string& s
 
 
 
-std::string makeClipboardText(){
+inline std::string makeClipboardText(){
     std::string text = "";
     int n = min(copy_to_clipbrd_count, static_cast<int>(log_lines.size()));
 
@@ -152,7 +152,7 @@ std::string makeClipboardText(){
 }
 
 
-void layoutButtons(){
+inline void layoutButtons(){
     if (ImGui::Button("Clear")) {
         log_lines.clear();
         lastIdx = 0;
@@ -206,7 +206,7 @@ void layoutButtons(){
     
 }
 
-void handleLogFile(){
+inline void handleLogFile(){
     if(!log_file.is_open() || reopen_file){
         log_file.close();
         log_file.clear();
@@ -218,7 +218,7 @@ void handleLogFile(){
     }
 }
 
-void DrawLogWindow(){
+inline void DrawLogWindow(){
     
 
     if (ImGui::IsKeyPressed(ImGuiKey_L) && (ImGui::GetIO().KeyCtrl)) {
