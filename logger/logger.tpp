@@ -4,16 +4,7 @@
 #include <sstream>
 #include <iomanip>
 #include <iostream>
-
-
-
-#ifndef max
-    #define max(a,b) (((a) > (b)) ? (a) : (b))
-#endif
-#ifndef min
-    #define min(a,b) (((a) < (b)) ? (a) : (b))  
-#endif
-
+#include <algorithm>
 
 template <class num>
 inline std::string numToStr(num n, int precision){
@@ -98,7 +89,9 @@ inline std::string ptrToStr(typ* p, int size, std::string (*logger)(typ, int), c
 
 inline void push_to_log_lines(std::pair<std::string, LogLevel>&& value)
 {
-    max_log_lines = max(static_cast<size_t>(1), max_log_lines);
+    using std::max;
+
+    max_log_lines = max(1, max_log_lines);
     if (log_lines.size() >= max_log_lines) {
         logToCout(Info, "resizing lines", "\n");
         log_lines.erase(log_lines.begin(), log_lines.begin() + (log_lines.size() - max_log_lines));   // drop oldest
@@ -139,6 +132,7 @@ inline void logToFile(const LogLevel lvl, const std::string& item, const std::st
 
 
 inline std::string makeClipboardText(){
+    using std::min;
     std::string text = "";
     int n = min(copy_to_clipbrd_count, static_cast<int>(log_lines.size()));
 
