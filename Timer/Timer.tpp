@@ -3,6 +3,9 @@
 inline long long int Timer::microPassed(const time_point& start, const time_point& end){
     return std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
 }
+inline double Timer::microPassedPrcs(const time_point& start, const time_point& end){
+    return std::chrono::duration_cast<std::chrono::duration<double, std::micro>>(end-start).count();
+}
 inline double Timer::milliPassed(const time_point& start, const time_point& end){
     return std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(end-start).count();
 }
@@ -17,9 +20,16 @@ inline long long int Timer::microPassed(const std::string& start, const std::str
     return std::chrono::duration_cast<std::chrono::microseconds>(time_records[end]-time_records[start]).count();
 }
 
+inline double Timer::microPassedPrcs(const std::string& start, const std::string& end){
+    return std::chrono::duration_cast<std::chrono::duration<double, std::micro>>(time_records[end]-time_records[start]).count();
+}
+
 inline double Timer::milliPassed(const std::string& start, const std::string& end){
     return std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(time_records[end]-time_records[start]).count();
 }
+
+
+
 inline long long int Timer::nanoPassed(const std::string& start, const std::string& end){
     return std::chrono::duration_cast<std::chrono::nanoseconds>(time_records[end]-time_records[start]).count();
 }
