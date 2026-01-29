@@ -17,9 +17,11 @@ class Timer{
     
     static inline long long int microPassed(const time_point& start, const time_point& end);
     static inline double milliPassed(const time_point& start, const time_point& end);
+    static inline long long int nanoPassed(const time_point& start, const time_point& end);
 
     inline long long int microPassed(const std::string& start, const std::string& end);
     inline double milliPassed(const std::string& start, const std::string& end);
+    inline long long int nanoPassed(const std::string& start, const std::string& end);
 
     inline void setPt(const std::string& name);
     inline void clearPts();
