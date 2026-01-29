@@ -38,7 +38,7 @@ int main(int, char**)
 {
     Timer app_timer;
 
-    app_timer.setTimePoint("App Starting");
+    app_timer.setPt("App Starting");
 
     log(Info, "Test log message: Application started");
     log(Debug, "Test debug message: Application started");
@@ -53,7 +53,7 @@ int main(int, char**)
     log(Warn, fltToStr(67676.69696961488, 12));
     log(Warn, fltToStrSci((67676.6969696), 12));
 
-    app_timer.setTimePoint("Warning Logs Finished");
+    app_timer.setPt("Warning Logs Finished");
 
 
     std::array<int, 5> test_array = { 1, 2, 3, 4, 5 };
@@ -134,8 +134,8 @@ int main(int, char**)
 
     // Our state
     ClassGame::GameStartUp();
-    app_timer.setTimePoint("Inits Finished");
-    log(Info, "Application Warning Logs finished in " + numToStr(Timer::microPassed(app_timer.getTimePoint("App Starting"), app_timer.getTimePoint("Warning Logs Finished"))) + " mus");
+    app_timer.setPt("Inits Finished");
+    log(Info, "Application Warning Logs finished in " + numToStr(app_timer.microPassed("App Starting", "Warning Logs Finished")) + " us");
 
     // Main loop
     bool done = false;

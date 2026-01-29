@@ -2,7 +2,9 @@
 #include <chrono>
 #include <vector>
 #include <string>
-
+#include <unordered_map>
+#include <algorithm>
+#include <stdexcept>
 typedef std::chrono::steady_clock::time_point time_point;
 
 
@@ -10,28 +12,25 @@ typedef std::chrono::steady_clock::time_point time_point;
 class Timer{
     
     public:
-    struct TimeRecord{
-        std::string name;
-        time_point time;
-    };
 
-
-
-
-    std::vector<TimeRecord> time_records;
+    std::unordered_map<std::string, time_point> time_records;
     
-    static long long int microPassed(const time_point& start, const time_point& end);
-    static double milliPassed(const time_point& start, const time_point& end);
+    static inline long long int microPassed(const time_point& start, const time_point& end);
+    static inline double milliPassed(const time_point& start, const time_point& end);
 
-    void setTimePoint(const std::string& name);
-    void clearTimePoints();
-    int deleteTimePoint(const std::string& name);
-    int deleteTimePoints(const time_point& start, const time_point& end);
-    int deleteTimePoints(int startIdx, int endIdx);
-    bool timePointExists(const std::string& name);
-    const time_point& getTimePoint(const std::string & name) ;
-    const time_point& getTimePoint(int idx);
+    inline long long int microPassed(const std::string& start, const std::string& end);
+    inline double milliPassed(const std::string& start, const std::string& end);
 
-    Timer() = default;
-    ~Timer() = default;
+    inline void setPt(const std::string& name);
+    inline void clearPts();
+    inline int deletePt(const std::string& name);
+    inline int deletePts(const std::string& prefix);
+    inline int deletePts(const time_point& start, const time_point& end);
+    inline bool ptExists(const std::string& name);
+    inline const time_point& pt(const std::string & name) ;
+
+    inline Timer() = default;
+    inline ~Timer() = default;
 };
+
+#include "Timer.tpp"
