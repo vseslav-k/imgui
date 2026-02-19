@@ -13,7 +13,7 @@ inline bool show_log_window = true;
 
 inline char log_file_path[300] = "C:\\Users\\vsesl\\OneDrive\\Documents\\log.txt\0";
 inline int copy_to_clipbrd_count = 100;
-inline int max_log_lines = 1000;
+inline int max_log_lines = 9999;
 inline std::ofstream log_file;
 inline bool reopen_file = false;
 inline std::vector<std::pair<std::string, LogLevel>> log_lines;
